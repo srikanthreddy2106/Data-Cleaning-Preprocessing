@@ -1,1 +1,2 @@
+Data-Cleaning-Preprocessing
 description::The main goal of data cleaning and preprocessing is to transform raw, messy data into a clean, structured format suitable for machine learning models. High-quality preprocessing ensures better model performance and more accurate predictions. This task involves understanding the data, addressing inconsistencies, handling missing values, encoding categorical variables, standardizing numerical values, and detecting/removing outliers. Tools Used:python,pandas,numpy,matplotlib/seaborn App:vs code
