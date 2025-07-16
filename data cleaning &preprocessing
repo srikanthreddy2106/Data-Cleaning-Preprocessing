@@ -1,0 +1,32 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv("titanic-dataset.csv")  # Replace with your file path
+print("First 5 Rows:\n", df.head())
+print("\nData Types & Nulls:\n")
+print(df.info())
+print("\nMissing Values:\n", df.isnull().sum())
+df['Age'] = df['Age'].fillna(df['Age'].mean()) 
+df['Embarked'] = df['Embarked'].fillna(df['Embarked'].mode()[0])
+df.drop(columns=['Cabin'], inplace=True) 
+df['Sex'] = df['Sex'].map({'male': 0, 'female': 1})
+df['Embarked'] = df['Embarked'].map({'S': 0, 'C': 1, 'Q': 2})
+for col in ['Age', 'Fare']:
+    df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
+def remove_outliers(df, column):
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower = Q1 - 1.5 * IQR
+    upper = Q3 + 1.5 * IQR
+    return df[(df[column] >= lower) & (df[column] <= upper)]
+df = remove_outliers(df, 'Age')
+df = remove_outliers(df, 'Fare')
+plt.figure(figsize=(10, 4))
+sns.boxplot(data=df[['Age', 'Fare']])
+plt.title("Boxplot after Outlier Removal")
+plt.show()
+print("\nCleaned Dataset Info:\n")
+print(df.info())
+print(df.head())
